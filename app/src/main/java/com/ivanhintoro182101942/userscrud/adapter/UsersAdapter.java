@@ -1,9 +1,11 @@
 package com.ivanhintoro182101942.userscrud.adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,13 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ivanhintoro182101942.userscrud.EditActivity;
 import com.ivanhintoro182101942.userscrud.R;
 import com.ivanhintoro182101942.userscrud.model.User;
+import com.squareup.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder> {
+    Context context;
     List<User> mUserList;
 
-    public UsersAdapter(List<User> userList){
+    public UsersAdapter(Context context,List<User> userList){
+        this.context=context;
         mUserList=userList;
     }
 
@@ -37,6 +43,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
         holder.mTextViewEmail.setText("Email = "+mUserList.get(position).getEmail());
         holder.mTextViewFirstName.setText("First Name = "+mUserList.get(position).getFirst_name());
         holder.mTextViewLastName.setText("Last Name = "+mUserList.get(position).getLast_name());
+        Picasso.Builder builder = new Picasso.Builder(context);
+        builder.downloader(new OkHttp3Downloader(context));
+        builder.build().load(mUserList.get(position).getAvatar())
+                .placeholder((R.drawable.ic_launcher_background))
+                .error(R.drawable.ic_launcher_background)
+                .into(holder.mImageViewAvatar);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,6 +57,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
                 mIntent.putExtra("Email",mUserList.get(position).getEmail());
                 mIntent.putExtra("First Name",mUserList.get(position).getFirst_name());
                 mIntent.putExtra("Last Name",mUserList.get(position).getLast_name());
+                mIntent.putExtra("Avatar",mUserList.get(position).getAvatar());
                 view.getContext().startActivity(mIntent);
             }
         });
@@ -58,6 +71,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextViewId, mTextViewName, mTextViewEmail, mTextViewFirstName, mTextViewLastName;
+        public ImageView mImageViewAvatar;
 
         public MyViewHolder(View itemView){
             super(itemView);
@@ -65,6 +79,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
             mTextViewEmail = (TextView)itemView.findViewById(R.id.tvEmail);
             mTextViewFirstName = (TextView)itemView.findViewById(R.id.tvFirstName);
             mTextViewLastName = (TextView)itemView.findViewById(R.id.tvLastName);
+            mImageViewAvatar = (ImageView)itemView.findViewById(R.id.ivAvatar);
         }
     }
 }

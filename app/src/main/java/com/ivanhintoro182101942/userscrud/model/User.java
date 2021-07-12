@@ -15,11 +15,15 @@ public class User {
     @SerializedName("email")
     private String email;
 
-    public User(String id, String name, String email) {
+    @SerializedName("avatar")
+    private String avatar;
+
+    public User(String id, String email, String first_name,String last_name, String avatar) {
         this.id = id;
+        this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
-        this.email = email;
+        this.avatar = avatar;
     }
 
     public String getId() {
@@ -52,5 +56,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
