@@ -18,7 +18,7 @@ import retrofit2.Response;
 
 public class InsertActivity extends AppCompatActivity {
 
-    EditText editName, editEmail;
+    EditText editEmail, editFirstName, editLastName;
     Button btnInsert, btnBack;
     ApiInterface mApiInterface;
 
@@ -26,14 +26,15 @@ public class InsertActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert);
-        editName = (EditText)findViewById(R.id.editNama);
         editEmail = (EditText)findViewById(R.id.editEmail);
+        editFirstName = (EditText)findViewById(R.id.editNamaDepan);
+        editLastName = (EditText)findViewById(R.id.editNamaBelakang);
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
         btnInsert = (Button)findViewById(R.id.btnInsert);
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Call<PostPutDelUser> postUserCall=mApiInterface.postUser(editName.getText().toString(),editEmail.getText().toString());
+                Call<PostPutDelUser> postUserCall=mApiInterface.postUser(editEmail.getText().toString(),editFirstName.getText().toString(),editLastName.getText().toString());
                 postUserCall.enqueue(new Callback<PostPutDelUser>() {
                     @Override
                     public void onResponse(Call<PostPutDelUser> call, Response<PostPutDelUser> response) {
@@ -43,7 +44,7 @@ public class InsertActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<PostPutDelUser> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                     }
                 });
             }

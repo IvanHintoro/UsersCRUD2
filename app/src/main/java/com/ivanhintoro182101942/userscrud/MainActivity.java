@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     ApiInterface mApiInterface;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    //private RecyclerView.LayoutManager mLayoutManager;
     public static MainActivity ma;
 
     @Override
@@ -43,8 +43,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this,InsertActivity.class));
             }
         });
-        mRecyclerView =(RecyclerView)findViewById(R.id.recyclerView);
-        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView =(RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        //mLayoutManager = new LinearLayoutManager(this);
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
         ma = this;
         refresh();
